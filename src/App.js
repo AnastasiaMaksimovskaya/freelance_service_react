@@ -1,25 +1,21 @@
 import logo from './logo.svg';
 import './App.css';
+import NavBar from "./components/NavBar";
+import {useEffect, useState} from "react";
+import ClientRegistration from "./components/ClientRegistration";
+import PerformerRegistration from "./components/PerformerRegistration";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+
+    const [role, setRole ] = useState('client')
+
+        if (role === 'client') {
+            return <><NavBar/><ClientRegistration changeRoleClient = {setRole} current = {role}/></>
+        }
+        else if (role === 'performer') {
+            return <><NavBar/><PerformerRegistration changeRolePerformer = {setRole} current = {role}/></>
+        }
+    }
+
 
 export default App;
