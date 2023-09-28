@@ -1,9 +1,14 @@
 import Registration from "./Registration";
+import {host} from "../App";
 
-const ClientRegistration = (props) =>  {
-    return (
-        <><button onClick={() => props.changeRoleClient('performer')}>Зарегестрироваться как исполнитель</button>
-        <h1>Вы регистрируетесь как заказчик</h1><Registration current = {props.current}></Registration></>
-    )
+export default function ClientRegistration (props) {
+    return (<>
+        <div className="container-fluid">
+            <div className="role-msg">
+                <h1>Вы регистрируетесь как заказчик</h1>
+                <a href={host + 'performer/reg'}>Зарегестрироваться как исполнитель</a>
+            </div>
+            <Registration current={props.current}></Registration>
+        </div>
+    </>)
 }
-export default ClientRegistration

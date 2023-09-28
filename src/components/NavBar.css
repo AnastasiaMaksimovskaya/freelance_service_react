@@ -1,15 +1,62 @@
 nav{
     padding-top: 0;
-    background-color: white;
-}
-nav div {
-    display: inline-block;
-    margin: 0 2% 0 2%;
-    padding: 15px;
+    height: 55px;
+    background-color: #605375;
+    display: flex;
 }
 
-a {
+.href-container {
+    display: flex;
+    width: 80%;
+}
+nav div,
+.href-container div {
+    margin-left: 3%;
+    margin-right: 3%;
+    line-height: 55px;
+}
+
+
+nav a {
+    color: #ffffff;
+    font-weight: normal;
+    font-size: 18px;
+    background-color: transparent;
     text-decoration: none;
-    color: white;
 }
 
+img {
+    line-height: 55px;
+    height: 40px;
+    vertical-align: middle
+}
+
+.transparent-button {
+    background-color: transparent;
+    border: none;
+}
+
+.align-right {
+    float: right;
+    padding-top: 10px;
+    padding-right: 10px;
+}
+
+.login-modal {
+    width: 30%;
+    background-color: white;
+    border: 1px solid #605375;
+    border-radius: 20px;
+}
+.ReactModal__Overlay {
+    opacity: 0;
+    transition: opacity 200ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open{
+    opacity: 1;
+}
+
+.ReactModal__Overlay--before-close{
+    opacity: 0;
+}
