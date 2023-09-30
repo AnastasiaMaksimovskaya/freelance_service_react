@@ -1,7 +1,7 @@
 import './Auth.css'
 import React from "react";
 import {host} from "../App";
-import axios from "axios";
+import axiosInstance from "./AxiosInstance";
 
 export default function Login() {
 
@@ -29,9 +29,10 @@ function login(event) {
         "login": event.target.form.elements.username.value,
         "password": event.target.form.elements.password.value
     };
-    console.log(userData)
-    axios
+
+    axiosInstance
         .post(`http://localhost:8080/auth/login`, userData)
-        .then()
-    ;
+        .then(r => {
+            localStorage.setItem('jwt', r.data.object.token)
+        });
 }

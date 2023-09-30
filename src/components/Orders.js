@@ -1,15 +1,18 @@
 import './Orders.css'
 import axios from "axios";
 import {useEffect, useState} from "react";
+import axiosInstance from "./AxiosInstance";
 
 
 export default function Orders (props) {
 
     const [items, setItems] = useState([]);
 
-    const response = () => axios
+    const response = () => axiosInstance
         .get(`http://localhost:8080/order/getOrders`).then(r => {
-            setItems(r.data.objects)
+            if (r !== undefined && r.data !== undefined) {
+                setItems(r.data.objects)
+            }
         });
 
     useEffect(() => {
