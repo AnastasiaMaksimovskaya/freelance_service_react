@@ -2,18 +2,26 @@ import React, {useState} from 'react';
 import './NavBar.css'
 import Login from "./Login";
 import Modal from './Modal';
-import {host} from "../App";
+import {host, user} from "../App";
+import {useNavigate} from "react-router-dom";
 
 export default function NavBar() {
 
     const [stateModal, setStateModal] = useState(false);
-    const openModal = () => setStateModal(true);
+    const navigate = useNavigate();
+    const openModal = () => {
+        console.log(user)
+        if (user) {
+            navigate('/profile')
+        }
+        setStateModal(true);
+    }
     const closeModal = () => setStateModal(false);
 
     const modalContent = (
         <div>
             <div className="login-modal modal">
-                <button className="transparent-button align-right">x</button>
+                <button className="transparent-button align-right" onClick={closeModal}>x</button>
                 <Login/>
             </div>
         </div>
@@ -29,7 +37,7 @@ export default function NavBar() {
             <div>
                 <button className="transparent-button" onClick={openModal}><img src={require("../img/user.png")}/>
                 </button>
-                {stateModal && <Modal children={modalContent} onClick={closeModal}></Modal>}
+                {!user && stateModal && <Modal children={modalContent}></Modal>}
             </div>
             <div><a href={host + 'client/reg'}><img src={require("../img/setings.png")}/></a></div>
         </nav>

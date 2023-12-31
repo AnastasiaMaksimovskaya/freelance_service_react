@@ -15,7 +15,7 @@ export default class Modal extends Component {
 
     render() {
         return createPortal(
-            <div style={modalStyle} onClick={this.props.onClick}>
+            <div style={modalStyle}>
                 {this.props.children}
             </div>,
             document.getElementById("overlay")

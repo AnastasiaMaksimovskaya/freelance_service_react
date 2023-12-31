@@ -1,9 +1,14 @@
 import './Auth.css'
 import axios from "axios";
 import App, {host} from "../App";
+import {useNavigate} from "react-router-dom";
 
 export default function Registration (props) {
-    let userRole = props.current;
+
+
+    const userRole = props.current;
+
+    const navigate = useNavigate();
 
     function reg(event) {
         event.preventDefault();
@@ -19,7 +24,9 @@ export default function Registration (props) {
         };
         axios
             .post(`http://localhost:8080/` + userRole + `/reg`, userData)
-            .then()
+            .then(
+                navigate('/')
+            )
         ;
     }
 
