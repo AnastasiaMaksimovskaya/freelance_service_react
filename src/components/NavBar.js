@@ -10,7 +10,6 @@ export default function NavBar() {
     const [stateModal, setStateModal] = useState(false);
     const navigate = useNavigate();
     const openModal = () => {
-        console.log(user)
         if (user) {
             navigate('/profile')
         }

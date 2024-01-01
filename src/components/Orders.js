@@ -5,9 +5,10 @@ import Pagination from "./Pagination";
 import {useSearchParams} from "react-router-dom";
 import {useLoading} from "./LoaderProvider";
 import Loader from "./Loader";
+import SortAndFilter from "./SortAndFilter";
 
 
-export default function Orders(props) {
+export default function Orders() {
 
     const [items, setItems] = useState([]);
     const [searchParams, setSearchParams] = useSearchParams();
@@ -15,12 +16,15 @@ export default function Orders(props) {
 
 
     const pg = searchParams.get("pg") ?? 1;
-
     const pageSize = searchParams.get("size") ?? 5;
+    const sort = searchParams.get("sort") ?? 'asc';
+    const orderBy = searchParams.get("orderBy") ?? 'updated';
 
     const searchData = {
         "page": pg,
-        "pageSize": pageSize
+        "pageSize": pageSize,
+        "sort": sort,
+        "orderBy": orderBy
     };
 
     useEffect(() => {
@@ -31,30 +35,8 @@ export default function Orders(props) {
                 setTotal(r.data.total)
             }
         });
-    }, [pg, pageSize])
+    }, [pg, pageSize, sort, orderBy])
 
-
-    function changePerPage(e) {
-        let currentPg;
-        if (total <= e.target.value * (pg - 1)) {
-            currentPg = 1;
-        } else {
-            currentPg = searchParams.get("pg") ?? 1;
-        }
-        setSearchParams({'size': e.target.value, 'pg': currentPg});
-    }
-
-    const response = () => axiosInstance
-        .post(`http://localhost:8080/order/getOrders`, searchData).then(r => {
-            if (r !== undefined && r.data !== undefined) {
-                setItems(r.data.objects)
-                setTotal(r.data.total)
-            }
-        });
-
-    useEffect(() => {
-        response();
-    }, []);
 
     const { loading, setLoading } = useLoading();
     if (!items || items.length === 0) {
@@ -68,6 +50,7 @@ export default function Orders(props) {
     return (
         <>
             <div className="orders-container">
+                <SortAndFilter options={['price', 'updated', 'name']}></SortAndFilter>
                 {items.map((item) => (
                     <>
                         <div className="order-body">
@@ -80,22 +63,7 @@ export default function Orders(props) {
                         </div>
                     </>
                 ))}
-                <div className="pagination-content">
-                    <Pagination totalCount={total}/>
-                    <div className="per-page">
-                        <span>Показать на странице</span>
-                        <select
-                            onChange={e => {
-                                changePerPage(e)
-                            }}
-                            name="select">
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                        </select>
-                    </div>
-                </div>
+                    <Pagination totalCount={total} options = {[1,2,5,10]}/>
             </div>
         </>
     )
