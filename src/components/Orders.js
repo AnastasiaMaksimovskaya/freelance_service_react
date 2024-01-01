@@ -3,6 +3,8 @@ import {useEffect, useState} from "react";
 import axiosInstance from "./AxiosInstance";
 import Pagination from "./Pagination";
 import {useSearchParams} from "react-router-dom";
+import {useLoading} from "./LoaderProvider";
+import Loader from "./Loader";
 
 
 export default function Orders(props) {
@@ -53,6 +55,15 @@ export default function Orders(props) {
     useEffect(() => {
         response();
     }, []);
+
+    const { loading, setLoading } = useLoading();
+    if (!items || items.length === 0) {
+        setLoading(true)
+        return (
+            (loading && <Loader></Loader>)
+        );
+    }
+    setLoading(false)
 
     return (
         <>

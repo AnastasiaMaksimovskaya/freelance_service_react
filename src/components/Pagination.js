@@ -48,7 +48,7 @@ export default function Pagination(props) {
                         </button>
                     );
                     if (pg > Number(siblingCount) + 2) {
-                        const hiddenPages = [];
+                        const hiddenPages = [<option style={{display:'none'}}></option>];
                         for (let j = 2; j < pg - siblingCount; j++) {
                             hiddenPages.push(<option value={j}>{j}</option>)
                         }
@@ -75,7 +75,7 @@ export default function Pagination(props) {
                 }
 
                 if (pg < pageCount - Number(siblingCount) - 1) {
-                    const hiddenPages = [];
+                    const hiddenPages = [<option style={{display:'none'}}></option>];
                     for (let j = Number(pg) + Number(siblingCount) + 1; j < pageCount; j++) {
                         hiddenPages.push(<option value={j}>{j}</option>)
                     }

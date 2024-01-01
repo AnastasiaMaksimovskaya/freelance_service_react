@@ -2,23 +2,32 @@ import axiosInstance from "./AxiosInstance";
 import {user} from "../App";
 import {useEffect, useState} from "react";
 import "./Profile.css";
+import {useLoading} from "./LoaderProvider";
+import Loader from "./Loader";
 
-export default function Profile(props) {
+export default function Profile() {
 
     const [responseUser, setUser] = useState([]);
 
     useEffect(() => {
         axiosInstance
             .get(`http://localhost:8080/client/getInfo?id=` + user.id).then(r => {
-                alert(r)
             if (r !== undefined && r.data !== undefined) {
                 setUser(r.data.object)
             }
         });
-    }, [])
+    }, [setUser])
+
+    const { loading, setLoading } = useLoading();
+    if (!responseUser || responseUser.length === 0) {
+        setLoading(true)
+        return (
+            (loading && <Loader></Loader>)
+    );
+    }
+    setLoading(false)
 
     return (
-
         <div className="profile-container">
             <div className="profile-content">
                 <div className="photo">

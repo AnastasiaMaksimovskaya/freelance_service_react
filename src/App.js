@@ -9,6 +9,7 @@ import Login from "./components/Login";
 import Profile from "./components/Profile";
 import React from "react";
 import RoleRoute from "./components/RoleRouter";
+import {LoadingProvider} from "./components/LoaderProvider";
 
 export const host = 'http://localhost:3000/';
 export let user;
@@ -25,12 +26,11 @@ function App() {
     }
 
     user = parseJwt(localStorage.getItem('jwt'))
-    console.log(user)
-    console.log(parseJwt(localStorage.getItem('jwt')))
 
     const role = 'client'
 
     return (
+        <LoadingProvider>
             <BrowserRouter>
                 <Routes>
                     <Route path="" element={<NavBar/>}/>
@@ -48,6 +48,7 @@ function App() {
                            element={<><NavBar/><PerformerRegistration current={role}/></>}/>
                 </Routes>
             </BrowserRouter>
+        </LoadingProvider>
     )
 }
 

@@ -7,6 +7,16 @@ const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.response.use((response) => {
+    if (response.data.status === 'error') {
+        if (response.data.message === 'globalException') {
+            Swal.fire({
+                title: response.data.message,
+                timer: 2000,
+                showConfirmButton: false,
+            })
+        }
+        return;
+    }
         return response
     }, (error) => {
         if (error.response.status === 403) {
