@@ -1,14 +1,13 @@
 import './Auth.css'
-import axios from "axios";
-import App, {host} from "../App";
+import App, {backHost, host} from "../App";
 import {useNavigate} from "react-router-dom";
+import axiosInstance from "./AxiosInstance";
 
 export default function Registration (props) {
 
 
     const userRole = props.current;
 
-    const navigate = useNavigate();
 
     function reg(event) {
         event.preventDefault();
@@ -22,10 +21,12 @@ export default function Registration (props) {
             "role": userRole === 'client' ? 'CLIENT' : 'PERFORMER'
 
         };
-        axios
-            .post(`http://localhost:8080/` + userRole + `/reg`, userData)
-            .then(
-                navigate('/')
+        axiosInstance
+            .post(backHost + userRole + `/reg`, userData)
+            .then(r => {
+                    localStorage.setItem('jwt', r.data.object)
+                    window.location.href = ''
+                }
             )
         ;
     }

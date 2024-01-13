@@ -21,7 +21,10 @@ export default function NavBar() {
         <div>
             <div className="login-modal modal">
                 <button className="transparent-button align-right" onClick={closeModal}>x</button>
-                <Login/>
+                <Login origin = 'fromModal' onSuccess = {function () {
+                    closeModal()
+                    window.location.reload();
+                }}/>
             </div>
         </div>
     );

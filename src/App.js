@@ -3,7 +3,7 @@ import NavBar from "./components/NavBar";
 import ClientRegistration from "./components/ClientRegistration";
 import PerformerRegistration from "./components/PerformerRegistration";
 import RegPopup from "./components/RegPopup";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Route, Routes, useNavigate} from "react-router-dom";
 import Orders from "./components/Orders";
 import Login from "./components/Login";
 import Profile from "./components/Profile";
@@ -13,6 +13,8 @@ import {LoadingProvider} from "./components/LoaderProvider";
 
 export const host = 'http://localhost:3000/';
 export let user;
+
+export const backHost = 'http://localhost:8080/';
 
 function App() {
 
@@ -39,7 +41,9 @@ function App() {
                     <Route path="client/reg"
                            element={<><NavBar/><ClientRegistration current={role}/></>}/>
                     <Route path="login"
-                           element={<Login/>}/>
+                           element={<Login onSuccess = {function (){
+                               window.location.href = ''
+                           }}/>}/>
                     <Route path="profile"
                            element={<><NavBar/><RoleRoute
                                                roles={anyRole}

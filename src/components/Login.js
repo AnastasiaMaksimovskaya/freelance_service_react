@@ -1,10 +1,9 @@
 import './Auth.css'
 import React from "react";
-import {host} from "../App";
+import {backHost, host} from "../App";
 import axiosInstance from "./AxiosInstance";
-import {useNavigate} from "react-router-dom";
 
-export default function Login() {
+export default function Login(props) {
 
     return (
         <form>
@@ -16,7 +15,7 @@ export default function Login() {
                 <label htmlFor="password" className="sr-only">Пароль</label>
                 <input type="password" id="password" name="password"
                        placeholder="Введите пароль" required=""></input>
-                <button className="registerbtn" type="submit" onClick={LoginReq}>Войти</button>
+                <button className="registerbtn" type="submit" onClick={(e) => loginReq(e, props.onSuccess)}>Войти</button>
                 <div className="container signin">
                     <p>Нет аккаунта? <a href={host + 'client/reg'}>Зарегистрироваться</a>.</p>
                 </div>
@@ -24,18 +23,16 @@ export default function Login() {
         </form>)
 }
 
-function LoginReq (event) {
-    const navigate = useNavigate()
+function loginReq (event, onSuccess) {
     event.preventDefault();
     const userData = {
         "login": event.target.form.elements.username.value,
         "password": event.target.form.elements.password.value
     };
-
     axiosInstance
-        .post(`http://localhost:8080/auth/login`, userData)
+        .post(backHost + `auth/login`, userData)
         .then(r => {
             localStorage.setItem('jwt', r.data.object.token)
-            navigate('/profile')
+            onSuccess();
         });
 }

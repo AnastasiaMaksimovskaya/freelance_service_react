@@ -1,5 +1,5 @@
 import axiosInstance from "./AxiosInstance";
-import {user} from "../App";
+import {backHost, user} from "../App";
 import {useEffect, useState} from "react";
 import "./Profile.css";
 import {useLoading} from "./LoaderProvider";
@@ -10,8 +10,15 @@ export default function Profile() {
     const [responseUser, setUser] = useState([]);
 
     useEffect(() => {
+        var rolePath;
+        if (user.role === 'PERFORMER') {
+            rolePath = 'performer'
+        } else if (user.role === 'CLIENT') {
+            rolePath = 'client'
+        }
+
         axiosInstance
-            .get(`http://localhost:8080/client/getInfo?id=` + user.id).then(r => {
+            .get(backHost + rolePath + `/getInfo`).then(r => {
             if (r !== undefined && r.data !== undefined) {
                 setUser(r.data.object)
             }
@@ -43,7 +50,7 @@ export default function Profile() {
                     </div>
                     <div>Имя: {responseUser.firstName}</div>
                     <div>Фамилия: {responseUser.lastName}</div>
-                    <div>Отчество: {responseUser.middleName}</div>
+                    {responseUser.middleName && <div> Отчество: {responseUser.middleName}</div>}
                 </div>
                 <div className="personal-contacts">
                     <div className="personal-para"><img src={require("../img/contacts.png")}/>Контактная информация
