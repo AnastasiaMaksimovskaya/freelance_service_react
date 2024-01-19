@@ -11,18 +11,20 @@ export default function Profile() {
 
     useEffect(() => {
         var rolePath;
-        if (user.role === 'PERFORMER') {
-            rolePath = 'performer'
-        } else if (user.role === 'CLIENT') {
-            rolePath = 'client'
-        }
-
-        axiosInstance
-            .get(backHost + rolePath + `/getInfo`).then(r => {
-            if (r !== undefined && r.data !== undefined) {
-                setUser(r.data.object)
+        if (user) {
+            if (user.role === 'PERFORMER') {
+                rolePath = 'performer'
+            } else if (user.role === 'CLIENT') {
+                rolePath = 'client'
             }
-        });
+
+            axiosInstance
+                .get(backHost + rolePath + `/getInfo`).then(r => {
+                if (r !== undefined && r.data !== undefined) {
+                    setUser(r.data.object)
+                }
+            });
+        }
     }, [setUser])
 
     const { loading, setLoading } = useLoading();

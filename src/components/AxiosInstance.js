@@ -1,15 +1,42 @@
 import axios from "axios";
-import React from "react";
+import React, {useState} from "react";
 import Swal from "sweetalert2";
+import Modal from "./Modal";
+import Login from "./Login";
+import {useNavigate} from "react-router-dom";
 
 const axiosInstance = axios.create({
-    baseURL: 'https://localhost:8080',
-    headers: {
-        freelance: localStorage.getItem('jwt')
-    }
+    withCredentials: true
 });
 
-axiosInstance.interceptors.response.use( (response) => {
+
+const AxiosInterceptor = ({children}) => {
+
+    const [stateModal, setStateModal] = useState(false);
+    const navigate = useNavigate();
+
+    const closeModal = () => setStateModal(false);
+
+    const modalContent = (
+        <div>
+            <div className="login-modal modal">
+                <button className="transparent-button align-right" onClick={
+                    function () {
+                        closeModal()
+                        navigate('/')
+                    }}>x
+                </button>
+                <Login origin='fromModal' onSuccess={function () {
+                    closeModal()
+                }}/>
+            </div>
+        </div>
+    );
+
+    const resInterceptor = response => {
+        if (response.data.status === 401) {
+            setStateModal(true)
+        }
         if (response.data.status === 'error') {
             if (response.data.message === 'globalException') {
                 Swal.fire({
@@ -21,10 +48,10 @@ axiosInstance.interceptors.response.use( (response) => {
             return;
         }
         return response
-    }, (error) => {
-        if (error.response.status === 403) {
-            window.location.assign('')
-            localStorage.removeItem('jwt');
+    }
+    const errInterceptor = error => {
+        if (error.response.status === 401) {
+            setStateModal(true)
         } else if (error.response.status >= 500) {
             Swal.fire({
                 title: 'Что-то пошло не так, \n повторите ваш запрос позже',
@@ -32,7 +59,13 @@ axiosInstance.interceptors.response.use( (response) => {
                 showConfirmButton: false,
             })
         }
+        return error;
     }
-)
+
+    axiosInstance.interceptors.response.use(resInterceptor, errInterceptor);
+
+    return stateModal ? <Modal children={modalContent}></Modal> : children;
+}
 
 export default axiosInstance;
+export {AxiosInterceptor}

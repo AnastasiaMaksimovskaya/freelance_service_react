@@ -23,8 +23,7 @@ export default function Registration (props) {
         };
         axiosInstance
             .post(backHost + userRole + `/reg`, userData)
-            .then(r => {
-                    localStorage.setItem('jwt', r.data.object)
+            .then(() => {
                     window.location.href = ''
                 }
             )

@@ -42,7 +42,7 @@ export default function Pagination(props) {
 
     function createCssStyle(pageNumber) {
         const className = ['visible-page'];
-        if (pageNumber == pg) {
+        if (pageNumber === pg) {
             className.push('current-page');
         }
         return className.join(', ');
