@@ -2,15 +2,16 @@ import React, {useState} from 'react';
 import './NavBar.css'
 import Login from "./Login";
 import Modal from './Modal';
-import {host, user} from "../App";
 import {useNavigate} from "react-router-dom";
+import SettingsMenu from "./SettingsMenu";
 
-export default function NavBar() {
+export default function NavBar(props) {
 
     const [stateModal, setStateModal] = useState(false);
+    const [hover, setHover] = useState(false);
     const navigate = useNavigate();
     const openModal = () => {
-        if (user) {
+        if (props.user) {
             navigate('/profile')
         }
         setStateModal(true);
@@ -32,15 +33,16 @@ export default function NavBar() {
         <nav>
             <div><a href="client/reg"><img className="logo" src={require("../img/logo.png")}/></a></div>
             <div className="href-container">
-                <div><a href={host + 'orders'}>Задания</a></div>
+                <button className="transparent-button navigate" style={{color: "white"}} onClick={() => navigate('/orders')}>Задания
+                </button>
                 <div><a href="#">Фрилансеры</a></div>
             </div>
             <div>
                 <button className="transparent-button" onClick={openModal}><img src={require("../img/user.png")}/>
                 </button>
-                {!user && stateModal && <Modal children={modalContent}></Modal>}
+                {!props.user && stateModal && <Modal children={modalContent}></Modal>}
             </div>
-            <div><a href={host + 'client/reg'}><img src={require("../img/setings.png")}/></a></div>
+            <div><button className="transparent-button" style={{position: "relative"}} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}><img src={require("../img/setings.png")}/>{hover && <SettingsMenu onLogout={() => setHover(false)}></SettingsMenu>}</button></div>
         </nav>
     )
 }

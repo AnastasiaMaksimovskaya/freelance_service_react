@@ -4,6 +4,8 @@ import Swal from "sweetalert2";
 import Modal from "./Modal";
 import Login from "./Login";
 import {useNavigate} from "react-router-dom";
+import {userContext} from './context/userContext';
+
 
 const axiosInstance = axios.create({
     withCredentials: true
@@ -64,7 +66,17 @@ const AxiosInterceptor = ({children}) => {
 
     axiosInstance.interceptors.response.use(resInterceptor, errInterceptor);
 
-    return stateModal ? <Modal children={modalContent}></Modal> : children;
+    return (
+        <userContext.Consumer>
+            {({user, logoutUser}) => {
+                if (stateModal) {
+                    logoutUser();
+                }
+                return (
+                    stateModal ? <Modal children={modalContent}></Modal> : children
+                )
+            }}
+        </userContext.Consumer>)
 }
 
 export default axiosInstance;

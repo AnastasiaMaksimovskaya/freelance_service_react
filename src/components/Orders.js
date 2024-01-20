@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import axiosInstance from "./AxiosInstance";
 import Pagination from "./Pagination";
 import {useSearchParams} from "react-router-dom";
-import {useLoading} from "./LoaderProvider";
+import {useLoading} from "./providers/LoaderProvider";
 import Loader from "./Loader";
 import SortAndFilter from "./SortAndFilter";
 

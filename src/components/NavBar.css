@@ -49,3 +49,8 @@ img {
     border-radius: 20px;
     transition: opacity 200ms ease-in-out;
 }
+
+.navigate {
+    color: white;
+    font-size: 18px;
+}

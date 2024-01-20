@@ -1,31 +1,31 @@
 import axiosInstance from "./AxiosInstance";
-import {backHost, user} from "../App";
+import {backHost} from "../App";
 import {useEffect, useState} from "react";
 import "./Profile.css";
-import {useLoading} from "./LoaderProvider";
+import {useLoading} from "./providers/LoaderProvider";
 import Loader from "./Loader";
 
-export default function Profile() {
+export default function Profile(props) {
 
-    const [responseUser, setUser] = useState([]);
+    const [responseUser, setResponseUser] = useState([]);
 
     useEffect(() => {
         var rolePath;
-        if (user) {
-            if (user.role === 'PERFORMER') {
+        if (props.user) {
+            if (props.user.role === 'PERFORMER') {
                 rolePath = 'performer'
-            } else if (user.role === 'CLIENT') {
+            } else if (props.user.role === 'CLIENT') {
                 rolePath = 'client'
             }
 
             axiosInstance
                 .get(backHost + rolePath + `/getInfo`).then(r => {
                 if (r !== undefined && r.data !== undefined) {
-                    setUser(r.data.object)
+                    setResponseUser(r.data.object)
                 }
             });
         }
-    }, [setUser])
+    }, [setResponseUser])
 
     const { loading, setLoading } = useLoading();
     if (!responseUser || responseUser.length === 0) {
