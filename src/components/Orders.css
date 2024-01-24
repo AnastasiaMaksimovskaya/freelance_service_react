@@ -1,10 +1,10 @@
 .order-body {
-    border: 1px solid #605375;
+    border: 1px solid #733586FF;
     border-radius: 5px;
     display: grid;
     grid-template-columns: 2fr repeat(2, 1fr);
     margin: 20px;
-    color: #605375;
+    color: #733586FF;
     background-color: white;
     font-size: 20px;
     line-height: 50px;

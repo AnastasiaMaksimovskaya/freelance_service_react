@@ -4,22 +4,27 @@
 
 .container {
     padding: 16px;
-    display: flex;
+    display: inline-block;
     flex-flow: column wrap;
     margin: 0 5%;
+    width: 50%;
 }
 
-input[type=text], input[type=password] {
-    width: 50%;
+.input-container {
+    position: relative;
+}
+
+input {
+    width: 100%;
     padding: 15px;
     margin: 5px 0 22px 0;
-    display: inline-block;
+    display: block;
     border-radius: 20px;
     border: none;
     background: #f1f1f1;
 }
 
-input[type=text]:focus, input[type=password]:focus {
+input:focus {
     background-color: #ddd;
     outline: none;
 }
@@ -29,17 +34,18 @@ hr {
     margin-bottom: 25px;
 }
 
-/* Set a style for the submit/register button */
 .registerbtn {
-    background-color: #605375;
+    background-color: #733586FF;
     color: white;
     padding: 16px 20px;
-    margin: 8px 0;
+    margin: auto;
     border: none;
     cursor: pointer;
     width: 50%;
     opacity: 0.9;
     border-radius: 20px;
+    justify-content: center;
+    display: flex;
 }
 
 
@@ -55,21 +61,30 @@ hr {
 
 .role-msg {
     width: 50%;
-    margin: 0 5%;
+    position: relative;
+    height: 0;
+    padding-bottom: 50%;
+    color: white;
+    display: table;
+    border-radius: 0 0 0 100%;
+    background: linear-gradient(149deg, rgba(24,187,156,1) 0%, rgba(106,57,175,1) 42%, rgba(187,24,148,1) 72%, rgba(115,53,134,1) 100%);
+    animation: gradient 10s infinite linear;
+    background-size: 400%;
 }
+
 
 .role-msg a:link {
     text-decoration: none;
-    color: #605375;
+    color: white;
 }
 
 .role-msg a:visited {
-    color: #605375;
+    color: white;
 }
 
 
 .container-fluid {
-    margin-top: 50px;
+    display: flex;
 }
 
 .container-login > *, .container-login input {
@@ -78,4 +93,32 @@ hr {
 
 .container-login h2 {
     text-align: center;
+}
+
+.eye {
+    position: absolute;
+    top: .4em;
+    right: .4em;
+    height: 2.2em;
+    border-radius: 1.1em;
+    border: 1px solid;
+    text-transform: uppercase;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 80% 0%;
+    }
+    50% {
+        background-position: 20% 100%;
+    }
+    100% {
+        background-position: 80% 0%;
+    }
+}
+
+.role-msg-content {
+    position: absolute;
+    top: 30%;
+    right: 2%;
 }

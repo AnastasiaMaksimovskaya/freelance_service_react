@@ -1,7 +1,7 @@
 nav{
     padding-top: 0;
     height: 55px;
-    background-color: #605375;
+    background-color: #733586FF;
     display: flex;
 }
 
@@ -45,7 +45,7 @@ img {
 .login-modal {
     width: 30%;
     background-color: white;
-    border: 1px solid #605375;
+    border: 1px solid #733586FF;
     border-radius: 20px;
     transition: opacity 200ms ease-in-out;
 }

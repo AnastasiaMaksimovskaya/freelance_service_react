@@ -12,6 +12,7 @@ import RoleRoute from "./components/RoleRouter";
 import {LoadingProvider} from "./components/providers/LoaderProvider";
 import axiosInstance, {AxiosInterceptor} from "./components/AxiosInstance";
 import {userContext} from './components/context/userContext';
+import ConfirmationReg from "./components/ConfirmationReg";
 
 
 export const host = 'http://localhost:3000/';
@@ -22,9 +23,10 @@ function App() {
 
     const anyRole = ['PERFORMER', 'CLIENT']
 
-    const role = 'client'
+    const role = 'performer'
 
-    const [user, setUser] = useState(() => {});
+    const [user, setUser] = useState(() => {
+    });
 
 
     useEffect(() => {
@@ -36,7 +38,7 @@ function App() {
                 }
             })
     }, [])
-    
+
 
     function logout() {
         setUser();
@@ -61,7 +63,7 @@ function App() {
                             <Route path="auth/popup" element={<RegPopup current={role}/>}/>
                             <Route path="/orders" element={<><NavBar user={user}/><Orders/></>}/>
                             <Route path="client/reg"
-                                   element={<><NavBar user={user}/><ClientRegistration current={role}/></>}/>
+                                   element={<ClientRegistration current={role}/>}/>
                             <Route path="login"
                                    element={<Login onSuccess={function () {
                                        window.location.href = ''
@@ -71,8 +73,12 @@ function App() {
                                        roles={anyRole}
                                        component={<Profile user={user}/>}></RoleRoute></>}/>
                             <Route path="performer/reg"
-                                   element={<><NavBar user={user}/><PerformerRegistration
-                                       current={role}/></>}/>
+                                   element={<PerformerRegistration
+                                       current={role}/>}/>
+                            <Route path="confirmRegistration/:role/:userId/:key"
+                                   element={<ConfirmationReg onSuccess={function () {
+                                       window.location.href = ''
+                                   }}/>}></Route>
                         </Routes>
                     </AxiosInterceptor>
                 </BrowserRouter>

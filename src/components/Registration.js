@@ -1,66 +1,83 @@
-import './Auth.css'
-import App, {backHost, host} from "../App";
-import {useNavigate} from "react-router-dom";
+
+
+import { Input } from './Input'
+import { FormProvider, useForm } from 'react-hook-form'
+import {
+    email_validation,
+    password_validation,
+    first_name_validation,
+    last_name_validation,
+    middle_name_validation,
+    phone_validation,
+    password_repeat_validation,
+} from './utils/inputValidations'
+import { useState } from 'react'
+import { BsFillCheckSquareFill } from 'react-icons/bs'
 import axiosInstance from "./AxiosInstance";
+import {backHost} from "../App";
 
-export default function Registration (props) {
-
+export const Registration = (props) => {
+    const methods = useForm()
+    const [success, setSuccess] = useState(false)
 
     const userRole = props.current;
-
+    const onSubmit = methods.handleSubmit(data => {
+        methods.reset()
+        setSuccess(true)
+    })
 
     function reg(event) {
-        event.preventDefault();
-        const userData = {
-            "firstName": event.target.form.elements.firstName.value,
-            "lastName": event.target.form.elements.lastName.value,
-            "login": event.target.form.elements.email.value,
-            "middleName": event.target.form.elements.middleName.value,
-            "password": event.target.form.elements.psw.value,
-            "phoneNumber": event.target.form.elements.phoneNumber.value,
-            "role": userRole === 'client' ? 'CLIENT' : 'PERFORMER'
+        if (success) {
+            event.preventDefault();
+            const userData = {
+                "firstName": event.target.form.elements.firstName.value,
+                "lastName": event.target.form.elements.lastName.value,
+                "login": event.target.form.elements.email.value,
+                "middleName": event.target.form.elements.middleName.value,
+                "password": event.target.form.elements.psw.value,
+                "phoneNumber": event.target.form.elements.phoneNumber.value,
+                "role": userRole === 'client' ? 'CLIENT' : 'PERFORMER'
 
-        };
-        axiosInstance
-            .post(backHost + userRole + `/reg`, userData)
-            .then(() => {
-                    window.location.href = ''
-                }
-            )
-        ;
+            };
+            axiosInstance
+                .post(backHost + userRole + `/reg`, userData)
+                .then(() => {
+                        window.location.href = ''
+                    }
+                )
+            ;
+        }
     }
 
     return (
-        <form>
-            <div className="container">
-                <h2>Заполните поля для регистрации</h2>
-                <hr></hr>
-                <label htmlFor="firstName"><b>Имя</b></label>
-                <input type="text" placeholder="Введите имя" name="firstName" required></input>
-                <label htmlFor="middleName"><b>Отчество</b></label>
-                <input type="text" placeholder="Введите отчество" name="middleName" required></input>
-                <label htmlFor="lastName"><b>Фамилия</b></label>
-                <input type="text" placeholder="Введите фамилию" name="lastName" required></input>
-                <label htmlFor="email"><b>Почта</b></label>
-                <input type="text" placeholder="Введите почту" name="email" required></input>
-                <label htmlFor="phoneNumber"><b>Номер телефона</b></label>
-                <input type="text" placeholder="Введите номер телефона" name="phoneNumber" required></input>
-                <hr></hr>
-                <label htmlFor="psw"><b>Пароль</b></label>
-                <input type="password" placeholder="Введите пароль" name="psw" required></input>
-
-                <label htmlFor="psw-repeat"><b>Повторите пароль</b></label>
-                <input type="password" placeholder="Повторите пароль" name="psw-repeat" required></input>
-                <hr></hr>
-
+        <FormProvider {...methods}>
+            <form
+                onSubmit={e => e.preventDefault()}
+                noValidate
+                autoComplete="off"
+                className="container"
+            >
+                <div>
+                    <Input {...first_name_validation} />
+                    <Input {...last_name_validation} />
+                    <Input {...middle_name_validation} />
+                    <Input {...phone_validation} />
+                    <Input {...email_validation} />
+                    <hr></hr>
+                    <Input {...password_validation} />
+                    <Input {...password_repeat_validation(document.getElementById("password") ? document.getElementById("password").value : '')} />
+                </div>
+                {success && (
+                    <p className="font-semibold text-green-500 mb-5 flex items-center gap-1">
+                        <BsFillCheckSquareFill /> Неверно введены данные
+                    </p>
+                )}
                 <p>Создавая аккаунт, вы соглашаетесь с <a href="#">Политикой конфиденциальности</a>.</p>
-                <button type="submit" className="registerbtn" onClick={reg}>Зарегистрироваться</button>
-            </div>
-
-            <div className="container signin">
-                <p>Уже есть аккаунт? <a href={host + 'login'}>Войти</a>.</p>
-            </div>
-        </form>
-    );
-
+                <button type="submit" className="registerbtn" onClick={(e) => {
+                    onSubmit()
+                    reg(e);
+                }}>Зарегистрироваться </button>
+            </form>
+        </FormProvider>
+    )
 }
